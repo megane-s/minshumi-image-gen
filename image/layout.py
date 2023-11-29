@@ -78,6 +78,9 @@ class Padding:
     def bottom(self):
         return int(self._bottom)
 
+    def __str__(self) -> str:
+        return f"Padding(left={self.left},top={self.top},right={self.right},bottom={self.bottom})"
+
     @staticmethod
     def new_all(padding: Length):
         return Padding(
