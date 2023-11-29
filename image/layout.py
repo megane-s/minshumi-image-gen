@@ -1,6 +1,4 @@
-from typing import TypeAlias
-
-Length: TypeAlias = "int | float"
+from image.type import Length
 
 
 class Offset:
