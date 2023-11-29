@@ -14,12 +14,15 @@ class Offset:
     def y(self) -> int:
         return int(self._y)
 
+    def to_tuple(self):
+        return (self.x, self.y)
+
+    def __str__(self) -> str:
+        return f"Offset(x={self.x},y={self.y})"
+
     @staticmethod
     def new_xy(x: Length, y: Length):
         return Offset(x, y)
-
-    def to_tuple(self):
-        return (self.x, self.y)
 
 
 class Size:
@@ -37,6 +40,9 @@ class Size:
 
     def to_tuple(self) -> tuple[int, int]:
         return (self.w, self.h)
+
+    def __str__(self) -> str:
+        return f"Size(w={self.w},h={self.h})"
 
     @staticmethod
     def new_wh(w: Length, h: Length):
@@ -92,6 +98,9 @@ class Rect:
     @property
     def center(self):
         return Offset(self.l, self.t)
+
+    def __str__(self) -> str:
+        return f"Rect(t={self.t},l={self.l},r={self.r},b={self.b})"
 
     @staticmethod
     def new_ltrb(left: Length, top: Length, right: Length, bottom: Length):

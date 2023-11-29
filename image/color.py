@@ -24,6 +24,12 @@ class Color:
     def a(self):
         return int(self._a)
 
+    def to_tuple(self):
+        return (self.r, self.g, self.b, self.a)
+
+    def __str__(self) -> str:
+        return f"Color(r={self.r},g={self.g},b={self.b},a={self.a})"
+
     @staticmethod
     def new_rgba(r: Number, g: Number, b: Number, a: Number = 255):
         return Color(r, g, b, a)
