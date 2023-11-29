@@ -220,3 +220,21 @@ class Rect:
             Offset(x - w / 2, y - h / 2),
             Size(w, h),
         )
+
+
+def column_size(*content_rects: Rect):
+    w = 0
+    h = 0
+    for content in content_rects:
+        w = content.w if content.w > w else w
+        h += content.h
+    return Size.new_wh(w, h)
+
+
+def row_size(*content_rects: Rect):
+    w = 0
+    h = 0
+    for content in content_rects:
+        w += content.w
+        h = content.h if content.h > h else h
+    return Size.new_wh(w, h)
