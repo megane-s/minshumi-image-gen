@@ -199,6 +199,9 @@ class Rect:
             h=self.h - padding.top - padding.bottom,
         )
 
+    def to_tuple(self):
+        return (self.l, self.t, self.r, self.b)
+
     @staticmethod
     def new_ltrb(left: Length, top: Length, right: Length, bottom: Length):
         return Rect(
@@ -225,7 +228,7 @@ class Rect:
         )
 
 
-def column_size(*content_rects: Rect):
+def column_size(*content_rects: Size):
     w = 0
     h = 0
     for content in content_rects:
@@ -234,7 +237,7 @@ def column_size(*content_rects: Rect):
     return Size.new_wh(w, h)
 
 
-def row_size(*content_rects: Rect):
+def row_size(*content_rects: Size):
     w = 0
     h = 0
     for content in content_rects:
