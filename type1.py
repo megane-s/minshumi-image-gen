@@ -268,15 +268,15 @@ def _draw_arts(img: Image.Image, arts, colors):
     # 文字入れ１
     print("test-1")
     rec1_inner_rect = rect1.inner_rect(padding=Padding.new_all(34))
-    draw.text(rec1_inner_rect.offset.to_tuple(), "作品1:ずっと真夜中でいいのに", font=get_font(35))
+    draw.text(rec1_inner_rect.offset.to_tuple(), arts[0], font=get_font(35))
 
     # 文字入れ２
     rec2_inner_rect = rect2.inner_rect(padding=Padding.new_all(34))
-    draw.text(rec2_inner_rect.offset.to_tuple(), "作品2:かいけつゾロリ", font=get_font(35))
+    draw.text(rec2_inner_rect.offset.to_tuple(), arts[1], font=get_font(35))
 
     # 文字入れ３
     rec3_inner_rect = rect3.inner_rect(padding=Padding.new_all(34))
-    draw.text(rec3_inner_rect.offset.to_tuple(), "作品3:呪術廻戦", font=get_font(35))
+    draw.text(rec3_inner_rect.offset.to_tuple(), arts[2], font=get_font(35))
 
 
 def businesscard_type_1(
