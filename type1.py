@@ -288,7 +288,7 @@ def businesscard_type_1(
     background_image,
     theme_color,
 ):
-    img = Image.open("./placeholder/1200x675_red.png")
+    img = Image.open(background_image)
 
     _draw_label(img, colors[theme_color].label)
     _draw_summary(img, icon, username, rank, interest_tags, colors[theme_color])
