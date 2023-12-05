@@ -161,7 +161,7 @@ class Rect:
 
     @property
     def w(self) -> int:
-        return self.offset.w
+        return self.size.w
 
     @property
     def width(self) -> int:
@@ -169,7 +169,7 @@ class Rect:
 
     @property
     def h(self) -> int:
-        return self.offset.h
+        return self.size.h
 
     @property
     def height(self) -> int:
