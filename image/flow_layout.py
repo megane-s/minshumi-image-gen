@@ -16,6 +16,8 @@ def textbbox_with_wrap(
     start_x, start_y = xy
     current_x, current_y = xy
     max_h = 0
+    w = 0
+    max_w = 0
 
     for char in chars:
         _, _, char_w, char_h = draw.textbbox(
@@ -28,14 +30,18 @@ def textbbox_with_wrap(
         if current_x + char_w < start_x + width:
             # 横に並べる
             current_x += char_w
+            w += char_w
         else:
             # 改行
             current_x = start_x
             current_y += max_h
             max_h = 0
+            w = char_w
             current_x += char_w
         max_h = char_h if char_h > max_h else max_h
-    return (start_x, start_y, start_x + width, current_y + max_h)
+        max_w = w if w > max_w else max_w
+    # TODO width はwidth引数ではなく、きちんと図ったサイズになるように修正
+    return (start_x, start_y, start_x + max_w, current_y + max_h)
 
 
 def draw_text_with_wrap(
@@ -45,7 +51,6 @@ def draw_text_with_wrap(
     text: str,
     fill=None,
     font=None,
-    spacing=4,
     stroke_width=0,
     stroke_fill=None,
 ):
@@ -59,7 +64,6 @@ def draw_text_with_wrap(
             (0, 0),
             text=char,
             font=font,
-            spacing=spacing,
             stroke_width=stroke_width,
         )
         if current_x + char_w < start_x + width:
@@ -68,7 +72,6 @@ def draw_text_with_wrap(
                 (current_x, current_y),
                 text=char,
                 font=font,
-                spacing=spacing,
                 stroke_width=stroke_width,
                 fill=fill,
                 stroke_fill=stroke_fill,
@@ -82,7 +85,6 @@ def draw_text_with_wrap(
                 (current_x, current_y),
                 text=char,
                 font=font,
-                spacing=spacing,
                 stroke_width=stroke_width,
                 fill=fill,
                 stroke_fill=stroke_fill,

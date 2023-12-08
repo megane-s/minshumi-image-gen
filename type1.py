@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw
-from image.cut_circle import cut_circle
-from image.flow_layout import draw_text_with_wrap, textbbox_with_wrap
+from image.cut import cut_circle
+from image.flow_layout import  textbbox_with_wrap
 from image.text import draw_text
 from settings import get_font
 from image.layout import Size, Rect, Offset, Padding
@@ -139,11 +139,6 @@ def _draw_summary(img: Image.Image, icon, username, rank, interest_tags, colors)
 
     # 描画
     # アイコンを描画
-    # draw.rounded_rectangle(
-    #     (container_x, container_y, container_x + icon_w, container_y + icon_h),
-    #     radius=9999,
-    #     fill=(255, 0, 0),
-    # )
     icon_img = Image.open(icon)
     icon_img = icon_img.resize((icon_w, icon_h))
     icon_img = cut_circle(icon_img)
@@ -266,7 +261,7 @@ def _draw_arts(img: Image.Image, arts, colors):
     img.alpha_composite(rect3_img)
 
     # 文字入れ１
-    print("test-1")
+    
     rec1_inner_rect = rect1.inner_rect(padding=Padding.new_all(34))
     draw.text(rec1_inner_rect.offset.to_tuple(), arts[0], font=get_font(35))
 
