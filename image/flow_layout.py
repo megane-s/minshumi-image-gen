@@ -53,6 +53,7 @@ def draw_text_with_wrap(
     font=None,
     stroke_width=0,
     stroke_fill=None,
+    align="left",  # TODO
 ):
     chars = list(text)
     start_x, start_y = xy
