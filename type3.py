@@ -233,6 +233,7 @@ def businesscard_type_3(
     theme_color,
 ):
     img = Image.open(background_image)
+    _draw_background_filter(img)
 
     _draw_icon_and_name(
         img,
