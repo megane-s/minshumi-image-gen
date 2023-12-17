@@ -1,10 +1,11 @@
 from PIL import Image, ImageDraw
-from image.cut import  cut_rounded_rect
-from image.flow_layout import draw_text_with_wrap, textbbox_with_wrap
-from settings import get_font
-from image.layout import  Rect
-from tag import draw_tags, tag_bbox
+
 from colors import colors
+from image.cut import cut_rounded_rect
+from image.flow_layout import draw_text_with_wrap, textbbox_with_wrap
+from image.layout import Rect
+from settings import get_font
+from tag import draw_tags, tag_bbox
 
 RANK_FONT = get_font(40)
 NAME_FONT = get_font(65)
@@ -216,20 +217,20 @@ def businesscard_type_2(
     img.save("output.png")
 
 
-businesscard_type_2(
-    "つーばーさつーばーさ",
-    "./placeholder/400x400_green.png",
-    "アクションマスター",
-    [
-        "アクション",
-        "SF",
-        "恋愛",
-        "アニメ",
-        "SF",
-        "恋愛",
-        "SF",
-    ],
-    ["ずっと真夜中でいいのに。", "かいけつゾロリ", "呪術廻戦"],
-    "./placeholder/1200x675_red.png",
-    "red",
-)
+# businesscard_type_2(
+#     "つーばーさつーばーさ",
+#     "./placeholder/400x400_green.png",
+#     "アクションマスター",
+#     [
+#         "アクション",
+#         "SF",
+#         "恋愛",
+#         "アニメ",
+#         "SF",
+#         "恋愛",
+#         "SF",
+#     ],
+#     ["ずっと真夜中でいいのに。", "かいけつゾロリ", "呪術廻戦"],
+#     "./placeholder/1200x675_red.png",
+#     "red",
+# )
