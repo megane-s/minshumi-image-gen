@@ -29,7 +29,6 @@ def draw_text_with_shadow(
         text=text,
         fill=shadow_color,
         font=font,
-        spacing=spacing,
         stroke_width=stroke_width,
         stroke_fill=shadow_color,
     )
@@ -47,7 +46,6 @@ def draw_text_with_shadow(
         text=text,
         fill=fill,
         font=font,
-        spacing=spacing,
         stroke_width=stroke_width,
         stroke_fill=stroke_fill,
     )
