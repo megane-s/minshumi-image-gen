@@ -125,8 +125,6 @@ def _draw_summary(
     rank_w = 0 + rank_text_w + 0
     rank_h = 16 + rank_text_h + 16
 
-    print(rank_text_w, rank_w, rank_text_bbox)
-
     # 全体のサイズ
     summary_h = rank_h + 16 + name_h + 27 + tag_h
     summary_t = summary_bottom - summary_h
@@ -208,13 +206,16 @@ def businesscard_type_2(
     background_image,
     theme_color,
 ):
-    img = Image.open(background_image)
+    img :Image.Image = Image.open(background_image)
+    img = img.convert("RGBA")
+    img = img.resize((1200, 675))
 
     _draw_background_filter(img)
     _draw_arts(img, arts, colors[theme_color])
     _draw_summary(img, rank, username, interest_tags, icon, colors[theme_color])
 
-    img.save("output.png")
+    # img.save("output.png")
+    return img
 
 
 # businesscard_type_2(

@@ -233,7 +233,9 @@ def businesscard_type_3(
     background_image,
     theme_color,
 ):
-    img = Image.open(background_image)
+    img :Image.Image = Image.open(background_image)
+    img = img.convert("RGBA")
+    img = img.resize((1200, 675))
     _draw_background_filter(img)
 
     _draw_icon_and_name(
@@ -254,7 +256,8 @@ def businesscard_type_3(
         colors=colors[theme_color],
     )
 
-    img.save("output.png")
+    # img.save("output.png")
+    return img
 
 
 # businesscard_type_3(

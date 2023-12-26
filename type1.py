@@ -184,7 +184,6 @@ def _draw_summary(img: Image.Image, icon, username, rank, interest_tags, colors)
 
     for tag in interest_tags:
         tag_w, tag_h = tag_bbox(draw, tag)
-        print(tag, tag_current_x, tag_w, container_w)
         if tag_current_x + tag_w < container_x + container_w:
             draw_tag(
                 draw,
@@ -284,13 +283,17 @@ def businesscard_type_1(
     background_image,
     theme_color,
 ):
-    img = Image.open(background_image)
+    img :Image.Image = Image.open(background_image)
+    img = img.convert("RGBA")
+    img = img.resize((1200, 675))
+
 
     _draw_label(img, colors[theme_color].label)
     _draw_summary(img, icon, username, rank, interest_tags, colors[theme_color])
     _draw_arts(img, arts, colors[theme_color])
 
-    img.save("output.png")
+    # img.save("output.png")
+    return img
 
 
 # businesscard_type_1(

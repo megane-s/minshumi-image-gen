@@ -124,7 +124,9 @@ def businesscard_type_4(
     background_image,
     theme_color,
 ):
-    img = Image.open(background_image)
+    img :Image.Image = Image.open(background_image)
+    img = img.convert("RGBA")
+    img = img.resize((1200, 675))
 
     _draw_icon_and_name(
         img=img,
@@ -139,8 +141,7 @@ def businesscard_type_4(
         color=colors[theme_color],
     )
 
-    img.save("output.png")
-
+    return img
 
 # businesscard_type_4(
 #     "つーばーさつーばーさ",
