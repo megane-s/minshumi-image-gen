@@ -11,27 +11,19 @@
 
     <h1>Image Generator Preview</h1>
 
+    <input type="text" id="img-src" style="width: 100%;"
+        value="/gen?type=1&username=tbsten&icon=https%3A%2F%2Ftbsten.me%2Ftbsten500x500.png&rank=Action+Master&interest_tags=a%2Cb%2Cc%2Cd%2Ce%2Cf&arts=xxxxxx%2Cyyyyyyy%2Czz&background_image=https%3A%2F%2Fvia.placeholder.com%2F300x200&theme_color=blue">
+
     <div style="display: flex;flex-wrap: wrap;gap: 2rem;">
         <img id="img"
             src="/gen?type=1&username=tbsten&icon=https%3A%2F%2Ftbsten.me%2Ftbsten500x500.png&rank=Action+Master&interest_tags=a%2Cb%2Cc%2Cd%2Ce%2Cf&arts=xxxxxx%2Cyyyyyyy%2Czz&background_image=https%3A%2F%2Fvia.placeholder.com%2F300x200&theme_color=blue"
             width="600" height="400" style="object-fit: contain;" />
-
-        <!-- 
-        username=username,
-        icon=icon,
-        rank=rank,
-        interest_tags=interest_tags,
-        arts=arts,
-        background_image=background_image,
-        theme_color=theme_color,
-        -->
 
         <form action="" name="preview-image">
             <table>
                 <tr>
                     <td>type</td>
                     <td>
-                        <!-- <input type="text" id="type" name="type" value="1"> -->
                         <select name="type" id="type">
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -93,7 +85,6 @@
                 <tr>
                     <td>theme_color</td>
                     <td>
-                        <!-- <input type="text" id="theme_color" name="theme_color" value="blue"> -->
                         <select name="theme_color" id="theme_color">
                             <option value="red">red</option>
                             <option value="blue">blue</option>
@@ -135,7 +126,10 @@
                 theme_color: form.theme_color.value,
             })
             const img = document.getElementById("img")
-            img.src = `/gen?${q.toString()}`
+            const imgSrc = document.getElementById("img-src")
+            const src = `/gen?${q.toString()}`
+            img.src = src
+            imgSrc.value = src
         })
     </script>
 
