@@ -84,5 +84,3 @@ def gen_image():
     img_bytes.seek(0)
     return send_file(img_bytes, mimetype='image/png')
 
-
-"http://localhost:5000/gen?type=3&username=tbsten&icon=https%3A%2F%2Ftbsten.me%2Ftbsten500x500.png&rank=Action+Master&interest_tags=a%2Cb%2Cc%2Cd%2Ce%2Cf&arts=xxxxxx%2Cyyyyyyy%2Czz&background_image=https%3A%2F%2Fvia.placeholder.com%2F300x200&theme_color=blue"
