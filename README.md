@@ -20,3 +20,17 @@
 
 - `Offset`, `Size`, `Rect` ... レイアウト関係のクラス。
 - `Color` ... 色関係のクラス。
+
+# docker
+
+## build
+
+```
+docker buildx build --platform linux/amd64 -t asia.gcr.io/megane-s-gcp/minshumi-image-gen .
+```
+
+## push
+
+```
+docker push asia.gcr.io/megane-s-gcp/minshumi-image-gen
+```
