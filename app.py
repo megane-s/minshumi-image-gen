@@ -1,6 +1,6 @@
 import io
 
-from flask import Flask, request, send_file
+from flask import Flask, render_template, request, send_file
 
 from image.download import get_local_path
 from type1 import businesscard_type_1
@@ -10,6 +10,9 @@ from type4 import businesscard_type_4
 
 app = Flask(__name__)
 
+@app.route("/test")
+def test_page():
+    return render_template("index.html")
 
 @app.route("/gen")
 def gen_image():

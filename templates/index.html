@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>Image Generator Preview</h1>
+
+    <div style="display: flex;flex-wrap: wrap;gap: 2rem;">
+        <img id="img"
+            src="/gen?type=1&username=tbsten&icon=https%3A%2F%2Ftbsten.me%2Ftbsten500x500.png&rank=Action+Master&interest_tags=a%2Cb%2Cc%2Cd%2Ce%2Cf&arts=xxxxxx%2Cyyyyyyy%2Czz&background_image=https%3A%2F%2Fvia.placeholder.com%2F300x200&theme_color=blue"
+            width="600" height="400" style="object-fit: contain;" />
+
+        <!-- 
+    username=username,
+    icon=icon,
+    rank=rank,
+    interest_tags=interest_tags,
+    arts=arts,
+    background_image=background_image,
+    theme_color=theme_color,
+     -->
+
+        <form action="" name="preview-image">
+            <table>
+                <tr>
+                    <td>type</td>
+                    <td>
+                        <!-- <input type="text" id="type" name="type" value="1"> -->
+                        <select name="type" id="type">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </td>
+                    <td>
+                        1~4から選択
+                    </td>
+                </tr>
+                <tr>
+                    <td>username</td>
+                    <td>
+                        <input type="text" id="username" name="username" value="tbsten">
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>icon</td>
+                    <td>
+                        <input type="url" id="icon" name="icon" value="https://tbsten.me/tbsten500x500.png">
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>rank</td>
+                    <td>
+                        <input type="text" id="rank" name="rank" value="Action Master">
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>interest_tags</td>
+                    <td>
+                        <input type="text" id="interest_tags" name="interest_tags" value="a,b,c,d,e,f">
+                    </td>
+                    <td>
+                        複数ある場合は「,」区切り
+                    </td>
+                </tr>
+                <tr>
+                    <td>arts</td>
+                    <td>
+                        <input type="text" id="arts" name="arts" value="xxxxx,yyyyyyy,zz">
+                    </td>
+                    <td>
+                        複数ある場合は「,」区切り
+                    </td>
+                </tr>
+                <tr>
+                    <td>background_image</td>
+                    <td>
+                        <input type="url" id="background_image" name="background_image"
+                            value="https://via.placeholder.com/300x200">
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>theme_color</td>
+                    <td>
+                        <!-- <input type="text" id="theme_color" name="theme_color" value="blue"> -->
+                        <select name="theme_color" id="theme_color">
+                            <option value="red">red</option>
+                            <option value="blue">blue</option>
+                            <option value="green">green</option>
+                            <option value="yellow">yellow</option>
+                            <option value="orange">orange</option>
+                            <option value="purple">purple</option>
+                            <option value="pink">pink</option>
+                            <option value="sky">sky</option>
+                            <option value="brown">brown</option>
+                            <option value="black">black</option>
+                            <option value="yellow-green">yellow-green</option>
+                            <option value="white">white</option>
+                        </select>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <button type="submit">
+                Preview
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.forms["preview-image"]
+        form.addEventListener("submit", (e) => {
+            e.preventDefault()
+            form.username.value
+            const q = new URLSearchParams({
+                type: form.type.value,
+                username: form.username.value,
+                icon: form.icon.value,
+                rank: form.rank.value,
+                interest_tags: form.interest_tags.value,
+                arts: form.arts.value,
+                background_image: form.background_image.value,
+                theme_color: form.theme_color.value,
+            })
+            const img = document.getElementById("img")
+            img.src = `/gen?${q.toString()}`
+        })
+    </script>
+
+</body>
+
+</html>
