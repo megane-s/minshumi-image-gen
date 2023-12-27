@@ -1,10 +1,10 @@
 from PIL import Image, ImageDraw
+
+from colors import colors
 from image.cut import cut_circle, cut_rounded_rect
 from image.flow_layout import draw_text_with_wrap, textbbox_with_wrap
-from settings import get_font
 from image.layout import Rect
-from colors import colors
-
+from settings import get_font
 
 NAME_FONT = get_font(90)
 ART_FONT = get_font(40)
@@ -124,7 +124,9 @@ def businesscard_type_4(
     background_image,
     theme_color,
 ):
-    img = Image.open(background_image)
+    img :Image.Image = Image.open(background_image)
+    img = img.convert("RGBA")
+    img = img.resize((1200, 675))
 
     _draw_icon_and_name(
         img=img,
@@ -139,23 +141,22 @@ def businesscard_type_4(
         color=colors[theme_color],
     )
 
-    img.save("output.png")
+    return img
 
-
-businesscard_type_4(
-    "つーばーさつーばーさ",
-    "./placeholder/400x400_green.png",
-    "アクションマスター",
-    [
-        "アクション",
-        "SF",
-        "恋愛",
-        "アニメ",
-        "SF",
-        "恋愛",
-        "SF",
-    ],
-    ["ずっと真夜中でいいのに。", "かいけつゾロリ", "呪術廻戦"],
-    "./placeholder/1200x675_red.png",
-    "red",
-)
+# businesscard_type_4(
+#     "つーばーさつーばーさ",
+#     "./placeholder/400x400_green.png",
+#     "アクションマスター",
+#     [
+#         "アクション",
+#         "SF",
+#         "恋愛",
+#         "アニメ",
+#         "SF",
+#         "恋愛",
+#         "SF",
+#     ],
+#     ["ずっと真夜中でいいのに。", "かいけつゾロリ", "呪術廻戦"],
+#     "./placeholder/1200x675_red.png",
+#     "red",
+# )

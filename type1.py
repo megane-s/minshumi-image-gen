@@ -1,12 +1,13 @@
 from PIL import Image, ImageDraw
+
+from colors import colors
 from image.cut import cut_circle
-from image.flow_layout import  textbbox_with_wrap
+from image.flow_layout import textbbox_with_wrap
+from image.layout import Offset, Padding, Rect, Size
+from image.shadow import draw_text_with_shadow
 from image.text import draw_text
 from settings import get_font
-from image.layout import Size, Rect, Offset, Padding
 from tag import draw_tag, tag_bbox
-from colors import colors
-from image.shadow import draw_text_with_shadow
 
 FONT = get_font(32)
 
@@ -183,7 +184,6 @@ def _draw_summary(img: Image.Image, icon, username, rank, interest_tags, colors)
 
     for tag in interest_tags:
         tag_w, tag_h = tag_bbox(draw, tag)
-        print(tag, tag_current_x, tag_w, container_w)
         if tag_current_x + tag_w < container_x + container_w:
             draw_tag(
                 draw,
@@ -283,29 +283,33 @@ def businesscard_type_1(
     background_image,
     theme_color,
 ):
-    img = Image.open(background_image)
+    img :Image.Image = Image.open(background_image)
+    img = img.convert("RGBA")
+    img = img.resize((1200, 675))
+
 
     _draw_label(img, colors[theme_color].label)
     _draw_summary(img, icon, username, rank, interest_tags, colors[theme_color])
     _draw_arts(img, arts, colors[theme_color])
 
-    img.save("output.png")
+    # img.save("output.png")
+    return img
 
 
-businesscard_type_1(
-    "つーばーさつーばーさ",
-    "./placeholder/400x400_green.png",
-    "アクションマスター",
-    [
-        "アクション",
-        "SF",
-        "恋愛",
-        "アニメ",
-        "SF",
-        "恋愛",
-        "SF",
-    ],
-    ["ずっと真夜中でいいのに。", "かいけつゾロリ", "呪術廻戦"],
-    "./placeholder/1200x675_red.png",
-    "red",
-)
+# businesscard_type_1(
+#     "つーばーさつーばーさ",
+#     "./placeholder/400x400_green.png",
+#     "アクションマスター",
+#     [
+#         "アクション",
+#         "SF",
+#         "恋愛",
+#         "アニメ",
+#         "SF",
+#         "恋愛",
+#         "SF",
+#     ],
+#     ["ずっと真夜中でいいのに。", "かいけつゾロリ", "呪術廻戦"],
+#     "./placeholder/1200x675_red.png",
+#     "red",
+# )

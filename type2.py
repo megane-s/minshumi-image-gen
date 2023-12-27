@@ -1,10 +1,11 @@
 from PIL import Image, ImageDraw
-from image.cut import  cut_rounded_rect
-from image.flow_layout import draw_text_with_wrap, textbbox_with_wrap
-from settings import get_font
-from image.layout import  Rect
-from tag import draw_tags, tag_bbox
+
 from colors import colors
+from image.cut import cut_rounded_rect
+from image.flow_layout import draw_text_with_wrap, textbbox_with_wrap
+from image.layout import Rect
+from settings import get_font
+from tag import draw_tags, tag_bbox
 
 RANK_FONT = get_font(40)
 NAME_FONT = get_font(65)
@@ -124,8 +125,6 @@ def _draw_summary(
     rank_w = 0 + rank_text_w + 0
     rank_h = 16 + rank_text_h + 16
 
-    print(rank_text_w, rank_w, rank_text_bbox)
-
     # 全体のサイズ
     summary_h = rank_h + 16 + name_h + 27 + tag_h
     summary_t = summary_bottom - summary_h
@@ -207,29 +206,32 @@ def businesscard_type_2(
     background_image,
     theme_color,
 ):
-    img = Image.open(background_image)
+    img :Image.Image = Image.open(background_image)
+    img = img.convert("RGBA")
+    img = img.resize((1200, 675))
 
     _draw_background_filter(img)
     _draw_arts(img, arts, colors[theme_color])
     _draw_summary(img, rank, username, interest_tags, icon, colors[theme_color])
 
-    img.save("output.png")
+    # img.save("output.png")
+    return img
 
 
-businesscard_type_2(
-    "つーばーさつーばーさ",
-    "./placeholder/400x400_green.png",
-    "アクションマスター",
-    [
-        "アクション",
-        "SF",
-        "恋愛",
-        "アニメ",
-        "SF",
-        "恋愛",
-        "SF",
-    ],
-    ["ずっと真夜中でいいのに。", "かいけつゾロリ", "呪術廻戦"],
-    "./placeholder/1200x675_red.png",
-    "red",
-)
+# businesscard_type_2(
+#     "つーばーさつーばーさ",
+#     "./placeholder/400x400_green.png",
+#     "アクションマスター",
+#     [
+#         "アクション",
+#         "SF",
+#         "恋愛",
+#         "アニメ",
+#         "SF",
+#         "恋愛",
+#         "SF",
+#     ],
+#     ["ずっと真夜中でいいのに。", "かいけつゾロリ", "呪術廻戦"],
+#     "./placeholder/1200x675_red.png",
+#     "red",
+# )
