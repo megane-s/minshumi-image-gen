@@ -1,15 +1,18 @@
 from PIL import Image, ImageDraw
 
-from colors import colors
+from colors import colors, BusinessCardColors
 from image.cut import cut_circle
 from image.flow_layout import textbbox_with_wrap
 from image.layout import Offset, Padding, Rect, Size
 from image.shadow import draw_text_with_shadow
+from image.tag import draw_tags, tagsbox
 from image.text import draw_text
 from settings import get_font
 from tag import draw_tag, tag_bbox
 
 FONT = get_font(32)
+NAME_FONT = get_font(72)
+RANK_FONT = get_font(36)
 
 LABEL_TEXT = "好きな作品"
 
@@ -67,158 +70,117 @@ def _draw_label(
     )
 
 
-def _draw_summary(img: Image.Image, icon, username, rank, interest_tags, colors):
+def _draw_summary(
+    img: Image.Image, icon, username, rank, interest_tags, colors: BusinessCardColors
+):
     draw = ImageDraw.Draw(img)
 
-    # サイズの計算
+    # サイズ計算
+    label_rect = get_label_rect(img)
 
-    container_padding_x = 28
+    summary_container_w = (img.width - label_rect.w) / 2
+    summary_container_h = img.height
 
-    container_w = (
-        img.width
-        - get_label_rect(img).right
-        - container_padding_x
-        - container_padding_x
-    )
+    summary_w = (img.width - label_rect.w) / 2 - 25 * 2
 
-    # アイコンのサイズ
     icon_w, icon_h = (120, 120)
 
-    # 名前のサイズ
-    USERNAME_FONT = get_font(64)
-    _, _, username_w, username_h = textbbox_with_wrap(
+    ICON_NAME_GAP = 20
+    name_w = summary_w - icon_w - ICON_NAME_GAP
+    _, _, _, name_h = textbbox_with_wrap(
         draw,
-        (0, 0),
+        xy=(0, 0),
+        width=name_w,
         text=username,
-        width=container_w - icon_w - 40,
-        font=USERNAME_FONT,
+        font=NAME_FONT,
     )
 
-    # 称号のサイズ
-    RANK_FONT = get_font(48)
-    _, _, rank_w, rank_h = textbbox_with_wrap(
+    rank_w = name_w
+    _, _, _, rank_h = textbbox_with_wrap(
         draw,
-        (0, 0),
+        xy=(0, 0),
+        width=rank_w,
         text=rank,
-        width=container_w - icon_w - 40,
         font=RANK_FONT,
+        stroke_width=3,
     )
 
-    # タグのサイズ
-    tag_start_x = 0
-    tag_start_y = 0
-    tag_current_x = tag_start_x
-    tag_current_y = tag_start_y
-    tag_max_h = 0
+    tags_w = summary_w
+    tags_h = tagsbox(
+        draw=draw,
+        tags=interest_tags,
+        font=FONT,
+        width=summary_w,
+    ).h
 
-    TAG_H_GAP = 9
-    TAG_V_GAP = 9
+    NAME_RANK_GAP = 20
+    RANK_TAG_GAP = 30
 
-    for tag in interest_tags:
-        tag_w, tag_h = tag_bbox(draw, tag)
-        if tag_current_x + tag_w < tag_start_x + container_w:
-            # 横に並べる
-            tag_current_x += tag_w
-            tag_current_x += TAG_H_GAP
-        else:
-            # 改行
-            tag_current_x = tag_start_x
-            tag_current_y += tag_max_h
-            tag_current_y += TAG_V_GAP
-            tag_max_h = tag_h
-            tag_current_x += tag_w
-            tag_current_x += TAG_H_GAP
-        tag_max_h = tag_h if tag_h > tag_max_h else tag_max_h
+    summary_h = (
+        max(
+            icon_h,
+            name_h + NAME_RANK_GAP + rank_h,
+        )
+        + RANK_TAG_GAP
+        + tags_h
+    )
 
-    tags_w = container_w
-    tags_h = tag_current_y + tag_max_h
+    # 位置計算
+    summary_x = summary_container_w / 2 - summary_w / 2
+    summary_y = summary_container_h / 2 - summary_h / 2
 
-    container_h = max(icon_h, username_h + rank_h) + 20 + tags_h
+    icon_x, icon_y = summary_x, summary_y
 
-    container_x = container_padding_x
-    container_y = (img.height - container_h) / 2
+    name_x = icon_x + icon_w + ICON_NAME_GAP
+    name_y = summary_y
+
+    rank_x = name_x
+    rank_y = name_y + name_h + NAME_RANK_GAP
+
+    tags_x = summary_x
+    tags_y = (
+        summary_y
+        + max(
+            icon_h,
+            name_h + NAME_RANK_GAP + rank_h,
+        )
+        + RANK_TAG_GAP
+    )
 
     # 描画
-    # アイコンを描画
-    icon_img = Image.open(icon)
-    icon_img = icon_img.resize((icon_w, icon_h))
-    icon_img = cut_circle(icon_img)
-    img.alpha_composite(icon_img, dest=(int(container_x), int(container_y + 40)))
+    icon_img = Image.open(icon).resize((icon_w, icon_h))
+    img.alpha_composite(icon_img, dest=(int(icon_x), int(icon_y)))
 
-    # 名前を描画
-    draw_text_with_shadow(
-        img=img,
-        xy=(container_x + icon_w + 40, container_y),
+    draw_text(
+        img,
+        xy=(name_x, name_y),
+        width=name_w,
         text=username,
-        width=container_w - icon_w - 40,
-        fill=colors.text.inner,
+        font=NAME_FONT,
+        stroke_fill=colors.text.edge,
         stroke_width=3,
-        stroke_fill=colors.text.edge,
-        font=USERNAME_FONT,
-        shadow_radius=4,
-        shadow_color=(0, 0, 0, int(255 * 0.25)),
-        shadow_y=4,
-    )
-
-    # 称号を描画
-    draw_text_with_shadow(
-        img=img,
-        xy=(container_x + icon_w + 40, container_y + username_h),
-        text=rank,
-        width=container_w - icon_w - 40,
         fill=colors.text.inner,
-        stroke_width=1,
-        stroke_fill=colors.text.edge,
-        font=RANK_FONT,
-        shadow_radius=4,
-        shadow_color=(0, 0, 0, int(255 * 0.25)),
-        shadow_y=4,
     )
 
-    # タグ
-    tag_start_x = container_x
-    tag_start_y = container_y + username_h + rank_h + 20
-    tag_current_x = tag_start_x
-    tag_current_y = tag_start_y
-    tag_max_h = 0
+    draw_text(
+        img,
+        xy=(rank_x, rank_y),
+        width=rank_w,
+        text=rank,
+        font=RANK_FONT,
+        stroke_fill=colors.text.edge,
+        stroke_width=3,
+        fill=colors.text.inner,
+    )
 
-    for tag in interest_tags:
-        tag_w, tag_h = tag_bbox(draw, tag)
-        if tag_current_x + tag_w < container_x + container_w:
-            draw_tag(
-                draw,
-                (
-                    tag_current_x,
-                    tag_current_y,
-                    tag_current_x + tag_w,
-                    tag_current_y + tag_h,
-                ),
-                tag,
-                fill=colors.label.box,
-                text=colors.label.text,
-            )
-            tag_current_x += tag_w
-            tag_current_x += TAG_H_GAP
-        else:
-            tag_current_x = tag_start_x
-            tag_current_y += tag_max_h
-            tag_current_y += TAG_V_GAP
-            draw_tag(
-                draw,
-                (
-                    tag_current_x,
-                    tag_current_y,
-                    tag_current_x + tag_w,
-                    tag_current_y + tag_h,
-                ),
-                tag,
-                fill=colors.label.box,
-                text=colors.label.text,
-            )
-            tag_max_h = tag_h
-            tag_current_x += tag_w
-            tag_current_x += TAG_H_GAP
-        tag_max_h = tag_h if tag_h > tag_max_h else tag_max_h
+    draw_tags(
+        img=img,
+        tags=interest_tags,
+        font=FONT,
+        colors=colors.label,
+        xy=(tags_x, tags_y),
+        width=tags_w,
+    )
 
 
 def _draw_arts(img: Image.Image, arts, colors):
@@ -261,7 +223,7 @@ def _draw_arts(img: Image.Image, arts, colors):
     img.alpha_composite(rect3_img)
 
     # 文字入れ１
-    
+
     rec1_inner_rect = rect1.inner_rect(padding=Padding.new_all(34))
     draw.text(rec1_inner_rect.offset.to_tuple(), arts[0], font=get_font(35))
 
@@ -283,10 +245,9 @@ def businesscard_type_1(
     background_image,
     theme_color,
 ):
-    img :Image.Image = Image.open(background_image)
+    img: Image.Image = Image.open(background_image)
     img = img.convert("RGBA")
     img = img.resize((1200, 675))
-
 
     _draw_label(img, colors[theme_color].label)
     _draw_summary(img, icon, username, rank, interest_tags, colors[theme_color])
@@ -313,3 +274,22 @@ def businesscard_type_1(
 #     "./placeholder/1200x675_red.png",
 #     "red",
 # )
+
+if __name__ == "__main__":
+    businesscard_type_1(
+        "つーばーさ",
+        "./placeholder/400x400_green.png",
+        "アクションマスター",
+        [
+            "アクション",
+            "SF",
+            "恋愛",
+            "アニメ",
+            "SF",
+            "恋愛",
+            "SF",
+        ],
+        ["ずっと真夜中でいいのに。", "かいけつゾロリ", "呪術廻戦"],
+        "./placeholder/1200x675_red.png",
+        "red",
+    ).save("./output.png")

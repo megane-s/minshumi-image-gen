@@ -2,23 +2,23 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 
-class BusinessCardColors:
-    def __init__(self, label, arts, text) -> None:
-        self.label = label
-        self.arts = arts
-        self.text = text
+class TextColors:
+    def __init__(self, edge: tuple[int, int, int], inner: tuple[int, int, int]=WHITE) -> None:
+        self.inner = inner
+        self.edge = edge
 
 
 class BoxColors:
-    def __init__(self, box, text=WHITE) -> None:
+    def __init__(self, box: tuple[int, int, int], text: tuple[int, int, int]=WHITE) -> None:
         self.box = box
         self.text = text
 
 
-class TextColors:
-    def __init__(self, edge, inner=WHITE) -> None:
-        self.inner = inner
-        self.edge = edge
+class BusinessCardColors:
+    def __init__(self, label: BoxColors, arts: BoxColors, text: TextColors) -> None:
+        self.label = label
+        self.arts = arts
+        self.text = text
 
 
 colors = {

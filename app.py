@@ -31,7 +31,7 @@ def gen_image():
     # theme_color = "red"
     username = request.args.get("username")
     icon = request.args.get("icon")
-    rank = request.args.get("rank")
+    rank = request.args.get("rank", default="")
     interest_tags = request.args.get("interest_tags", default="").split(",")
     arts = request.args.get("arts", default="").split(",")
     background_image = request.args.get("background_image")
