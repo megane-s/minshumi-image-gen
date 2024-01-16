@@ -29,13 +29,13 @@ def gen_image():
     # arts = ["ずっと真夜中でいいのに。", "かいけつゾロリ", "呪術廻戦"]
     # background_image = "./placeholder/1200x675_red.png"
     # theme_color = "red"
-    username = request.args.get("username")
-    icon = request.args.get("icon")
-    rank = request.args.get("rank", default="")
-    interest_tags = request.args.get("interest_tags", default="").split(",")
-    arts = request.args.get("arts", default="").split(",")
-    background_image = request.args.get("background_image")
-    theme_color = request.args.get("theme_color")
+    username = get_username()
+    icon = get_icon()
+    rank = get_rank()
+    interest_tags = get_interest_tags()
+    arts = get_arts()
+    background_image = get_background_image()
+    theme_color = get_theme_color()
     if not any(
         [username, icon, rank, interest_tags, arts, background_image, theme_color]
     ):
@@ -90,3 +90,55 @@ def gen_image():
     img.save(img_bytes, format="PNG")
     img_bytes.seek(0)
     return send_file(img_bytes, mimetype="image/png")
+
+
+def get_username():
+    username = request.args.get("username", default=None)
+    if username is None:
+        raise NotImplementedError(f"invalid username : {username}")
+    return username
+
+
+def get_icon():
+    return request.args.get(
+        "icon",
+        default="https://storage.googleapis.com/minshumi-user-content/logo-square-1080x1080.png",
+    )
+
+
+def get_rank():
+    return request.args.get("rank", default="")  # None にしたい
+
+
+def get_interest_tags():
+    tags = request.args.get("interest_tags", default=None)
+    if tags is None:
+        return []
+    return tags.split(",")
+
+
+def get_arts():
+    arts = request.args.get("arts", default=None)
+    if arts is None:
+        arts = ""
+    arts = arts.split(",")
+    if len(arts) != 3:
+        for i in range(3):
+            if len(arts) <= i:
+                arts.append("")
+    print(arts)
+    return arts
+
+
+def get_background_image():
+    return request.args.get(
+        "background_image",
+        default="https://storage.googleapis.com/minshumi-user-content/logo-rect-1200x675.png",
+    )
+
+
+def get_theme_color():
+    return request.args.get(
+        "theme_color",
+        default="red",
+    )
