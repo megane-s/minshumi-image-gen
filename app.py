@@ -126,7 +126,6 @@ def get_arts():
         for i in range(3):
             if len(arts) <= i:
                 arts.append("")
-    print(arts)
     return arts
 
 
