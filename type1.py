@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw
 
-from colors import colors, BusinessCardColors
+from colors import BusinessCardColors, colors
 from image.cut import cut_circle
 from image.flow_layout import textbbox_with_wrap
 from image.layout import Offset, Padding, Rect, Size
@@ -165,16 +165,17 @@ def _draw_summary(
         fill=colors.text.inner,
     )
 
-    draw_text(
-        img,
-        xy=(rank_x, rank_y),
-        width=rank_w,
-        text=rank,
-        font=RANK_FONT,
-        stroke_fill=colors.text.edge,
-        stroke_width=3,
-        fill=colors.text.inner,
-    )
+    if rank is not None:
+        draw_text(
+            img,
+            xy=(rank_x, rank_y),
+            width=rank_w,
+            text=rank,
+            font=RANK_FONT,
+            stroke_fill=colors.text.edge,
+            stroke_width=3,
+            fill=colors.text.inner,
+        )
 
     draw_tags(
         img=img,
