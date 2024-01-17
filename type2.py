@@ -49,7 +49,7 @@ def _draw_arts(
         art_y = arts_rect.top
         art_draw.rectangle(
             (art_x, art_y, art_x + art_w, art_y + art_h),
-            fill=(255, 255, 255, int(255 * 0.85)),
+            fill=(255, 255, 255, int(255 * 0.40)),
         )
         draw_text_with_wrap(
             art_draw,
@@ -114,7 +114,7 @@ def _draw_summary(
 
         tags_h = tag_current_y + tag_max_h
     else:
-        tags_h = 0
+        tags_h = 50
 
     # 名前
     name_w = tags_w
@@ -190,7 +190,7 @@ def _draw_summary(
     rank_bottom = name_top - 16
     rank_top = rank_bottom - rank_h
     rank_left = summary_left
-    rank_right = rank_left + 85 + rank_w + 85
+    rank_right = rank_left + 40 + rank_w + 40
     if rank is not None:
         draw.rounded_rectangle(
             (rank_left, rank_top, rank_right, rank_top + rank_h),
@@ -199,7 +199,7 @@ def _draw_summary(
         )
 
     if rank is not None:
-        rank_text_left = rank_left + 85
+        rank_text_left = rank_left + 40
         rank_text_top = rank_top + 16
         draw_text_with_wrap(
             draw,
