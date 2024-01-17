@@ -181,27 +181,27 @@ def _draw_summary(
     )
 
     # 称号
-    if rank is not None:
-        rank_bottom = name_top - 16
-        rank_top = rank_bottom - rank_h
-        rank_left = summary_left
-        rank_right = rank_left + 85 + rank_w + 85
-        draw.rounded_rectangle(
-            (rank_left, rank_top, rank_right, rank_top + rank_h),
-            radius=rank_h / 2,
-            fill=colors.label.box,
-        )
-
-    rank_text_left = rank_left + 85
-    rank_text_top = rank_top + 16
-    draw_text_with_wrap(
-        draw,
-        (rank_text_left, rank_text_top),
-        width=tags_w,
-        text=rank,
-        fill=colors.label.text,
-        font=RANK_FONT,
+    rank_bottom = name_top - 16
+    rank_top = rank_bottom - rank_h
+    rank_left = summary_left
+    rank_right = rank_left + 85 + rank_w + 85
+    draw.rounded_rectangle(
+        (rank_left, rank_top, rank_right, rank_top + rank_h),
+        radius=rank_h / 2,
+        fill=colors.label.box,
     )
+
+    if rank is not None:
+        rank_text_left = rank_left + 85
+        rank_text_top = rank_top + 16
+        draw_text_with_wrap(
+            draw,
+            (rank_text_left, rank_text_top),
+            width=tags_w,
+            text=rank,
+            fill=colors.label.text,
+            font=RANK_FONT,
+        )
 
 
 def businesscard_type_2(

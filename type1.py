@@ -96,14 +96,17 @@ def _draw_summary(
     )
 
     rank_w = name_w
-    _, _, _, rank_h = textbbox_with_wrap(
-        draw,
-        xy=(0, 0),
-        width=rank_w,
-        text=rank,
-        font=RANK_FONT,
-        stroke_width=3,
-    )
+    if rank is not None:
+        _, _, _, rank_h = textbbox_with_wrap(
+            draw,
+            xy=(0, 0),
+            width=rank_w,
+            text=rank,
+            font=RANK_FONT,
+            stroke_width=3,
+        )
+    else:
+        rank_h = 0
 
     tags_w = summary_w
     tags_h = tagsbox(
