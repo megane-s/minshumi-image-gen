@@ -71,7 +71,12 @@ def _draw_label(
 
 
 def _draw_summary(
-    img: Image.Image, icon, username, rank, interest_tags, colors: BusinessCardColors
+    img: Image.Image,
+    icon: str,
+    username: str,
+    rank: str | None,
+    interest_tags: list[str],
+    colors: BusinessCardColors,
 ):
     draw = ImageDraw.Draw(img)
 
@@ -79,7 +84,7 @@ def _draw_summary(
     label_rect = get_label_rect(img)
 
     summary_container_w = (img.width - label_rect.w) / 2
-    summary_container_h = img.height
+    summary_container_h: int = img.height
 
     summary_w = (img.width - label_rect.w) / 2 - 25 * 2
 
@@ -254,7 +259,8 @@ def businesscard_type_1(
     img = img.resize((1200, 675))
 
     _draw_label(img, colors[theme_color].label)
-    _draw_summary(img, icon, username, rank, interest_tags, colors[theme_color])
+    _draw_summary(img, icon, username, rank,
+                  interest_tags, colors[theme_color])
     _draw_arts(img, arts, colors[theme_color])
 
     # img.save("output.png")

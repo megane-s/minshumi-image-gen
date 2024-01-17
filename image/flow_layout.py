@@ -3,7 +3,7 @@ from PIL import ImageDraw
 
 def textbbox_with_wrap(
     draw: ImageDraw.ImageDraw,
-    xy,
+    xy: tuple[int, int],
     width,
     text: str,
     fill=None,
@@ -17,7 +17,7 @@ def textbbox_with_wrap(
     current_x, current_y = xy
     max_h = 0
     w = 0
-    max_w = 0
+    max_w: int = 0
 
     for char in chars:
         _, _, char_w, char_h = draw.textbbox(
