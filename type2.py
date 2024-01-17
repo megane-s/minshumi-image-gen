@@ -119,11 +119,17 @@ def _draw_summary(
     name_h = name_bbox[3] - name_bbox[1]
 
     # 称号
-    rank_text_bbox = textbbox_with_wrap(draw, (0, 0), tags_w, text=rank, font=RANK_FONT)
-    rank_text_w = rank_text_bbox[2] - rank_text_bbox[0]
-    rank_text_h = rank_text_bbox[3] - rank_text_bbox[1]
-    rank_w = 0 + rank_text_w + 0
-    rank_h = 16 + rank_text_h + 16
+    if rank is not None:
+        rank_text_bbox = textbbox_with_wrap(
+            draw, (0, 0), tags_w, text=rank, font=RANK_FONT
+        )
+        rank_text_w = rank_text_bbox[2] - rank_text_bbox[0]
+        rank_text_h = rank_text_bbox[3] - rank_text_bbox[1]
+        rank_w = 0 + rank_text_w + 0
+        rank_h = 16 + rank_text_h + 16
+    else:
+        rank_w = 0
+        rank_h = 0
 
     # 全体のサイズ
     summary_h = rank_h + 16 + name_h + 27 + tags_h
@@ -175,15 +181,16 @@ def _draw_summary(
     )
 
     # 称号
-    rank_bottom = name_top - 16
-    rank_top = rank_bottom - rank_h
-    rank_left = summary_left
-    rank_right = rank_left + 85 + rank_w + 85
-    draw.rounded_rectangle(
-        (rank_left, rank_top, rank_right, rank_top + rank_h),
-        radius=rank_h / 2,
-        fill=colors.label.box,
-    )
+    if rank is not None:
+        rank_bottom = name_top - 16
+        rank_top = rank_bottom - rank_h
+        rank_left = summary_left
+        rank_right = rank_left + 85 + rank_w + 85
+        draw.rounded_rectangle(
+            (rank_left, rank_top, rank_right, rank_top + rank_h),
+            radius=rank_h / 2,
+            fill=colors.label.box,
+        )
 
     rank_text_left = rank_left + 85
     rank_text_top = rank_top + 16

@@ -107,7 +107,10 @@ def get_icon():
 
 
 def get_rank():
-    return request.args.get("rank", default="")  # None にしたい
+    rank = request.args.get("rank", default="")  # None にしたい
+    if len(rank) == 0:
+        rank = None
+    return rank
 
 
 def get_interest_tags():
