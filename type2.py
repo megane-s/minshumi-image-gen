@@ -49,7 +49,7 @@ def _draw_arts(
         art_y = arts_rect.top
         art_draw.rectangle(
             (art_x, art_y, art_x + art_w, art_y + art_h),
-            fill=(255, 255, 255, int(255 * 0.40)),
+            fill=(255, 255, 255, int(255 * 0.9)),
         )
         draw_text_with_wrap(
             art_draw,
