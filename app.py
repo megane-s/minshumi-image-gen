@@ -6,7 +6,6 @@ from image.download import get_local_path
 from type1 import businesscard_type_1
 from type2 import businesscard_type_2
 from type3 import businesscard_type_3
-from type4 import businesscard_type_4
 
 from upload_image.router import upload_user_content
 
@@ -65,16 +64,6 @@ def gen_image():
         )
     elif card_type == "3":
         img = businesscard_type_3(
-            username=username,
-            icon=icon,
-            rank=rank,
-            interest_tags=interest_tags,
-            arts=arts,
-            background_image=background_image,
-            theme_color=theme_color,
-        )
-    elif card_type == "4":
-        img = businesscard_type_4(
             username=username,
             icon=icon,
             rank=rank,
