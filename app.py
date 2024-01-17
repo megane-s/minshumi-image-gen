@@ -6,7 +6,6 @@ from image.download import get_local_path
 from type1 import businesscard_type_1
 from type2 import businesscard_type_2
 from type3 import businesscard_type_3
-
 from upload_image.router import upload_user_content
 
 app = Flask(__name__)
@@ -104,8 +103,8 @@ def get_rank():
 
 def get_interest_tags():
     tags = request.args.get("interest_tags", default=None)
-    if tags is None:
-        return []
+    if tags is None or len(tags) == 0:
+        return None
     return tags.split(",")
 
 

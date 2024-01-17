@@ -92,30 +92,34 @@ def _draw_summary(
     TAG_H_GAP = 9
     TAG_V_GAP = 9
 
-    for tag in interest_tags:
-        tag_w, tag_h = tag_bbox(
-            draw,
-            tag,
-        )
-        if tag_current_x + tag_w < tag_start_x + tags_w:
-            # 横に並べる
-            tag_current_x += tag_w
-            tag_current_x += TAG_H_GAP
-        else:
-            # 改行
-            tag_current_x = tag_start_x
-            tag_current_y += tag_max_h
-            tag_current_y += TAG_V_GAP
-            tag_max_h = tag_h
-            tag_current_x += tag_w
-            tag_current_x += TAG_H_GAP
-        tag_max_h = tag_h if tag_h > tag_max_h else tag_max_h
+    if interest_tags is not None:
+        for tag in interest_tags:
+            tag_w, tag_h = tag_bbox(
+                draw,
+                tag,
+            )
+            if tag_current_x + tag_w < tag_start_x + tags_w:
+                # 横に並べる
+                tag_current_x += tag_w
+                tag_current_x += TAG_H_GAP
+            else:
+                # 改行
+                tag_current_x = tag_start_x
+                tag_current_y += tag_max_h
+                tag_current_y += TAG_V_GAP
+                tag_max_h = tag_h
+                tag_current_x += tag_w
+                tag_current_x += TAG_H_GAP
+            tag_max_h = tag_h if tag_h > tag_max_h else tag_max_h
 
-    tags_h = tag_current_y + tag_max_h
+        tags_h = tag_current_y + tag_max_h
+    else:
+        tags_h = 0
 
     # 名前
     name_w = tags_w
-    name_bbox = textbbox_with_wrap(draw, (0, 0), name_w, username, font=NAME_FONT)
+    name_bbox = textbbox_with_wrap(
+        draw, (0, 0), name_w, username, font=NAME_FONT)
     name_h = name_bbox[3] - name_bbox[1]
 
     # 称号
@@ -144,7 +148,8 @@ def _draw_summary(
         icon_img,
         dest=(
             int(img.width - 100 - icon_w),
-            int(summary_t + (summary_h / 2 - icon_h / 2)),
+            # int(summary_t + (summary_h / 2 - icon_h / 2)),
+            summary_bottom - tags_h - icon_h - 20,
         ),
     )  # TODO
 
@@ -155,15 +160,16 @@ def _draw_summary(
         w=tags_w,
         h=tags_h,
     )
-    draw_tags(
-        draw,
-        rect=tags_rect,
-        tags=interest_tags,
-        fill_color=colors.label.box,
-        text_color=colors.label.text,
-        v_gap=16,
-        h_gap=12,
-    )
+    if interest_tags is not None:
+        draw_tags(
+            draw,
+            rect=tags_rect,
+            tags=interest_tags,
+            fill_color=colors.label.box,
+            text_color=colors.label.text,
+            v_gap=16,
+            h_gap=12,
+        )
 
     # 名前
     name_bottom = tags_rect.top - 27
@@ -185,11 +191,12 @@ def _draw_summary(
     rank_top = rank_bottom - rank_h
     rank_left = summary_left
     rank_right = rank_left + 85 + rank_w + 85
-    draw.rounded_rectangle(
-        (rank_left, rank_top, rank_right, rank_top + rank_h),
-        radius=rank_h / 2,
-        fill=colors.label.box,
-    )
+    if rank is not None:
+        draw.rounded_rectangle(
+            (rank_left, rank_top, rank_right, rank_top + rank_h),
+            radius=rank_h / 2,
+            fill=colors.label.box,
+        )
 
     if rank is not None:
         rank_text_left = rank_left + 85
@@ -219,7 +226,8 @@ def businesscard_type_2(
 
     _draw_background_filter(img)
     _draw_arts(img, arts, colors[theme_color])
-    _draw_summary(img, rank, username, interest_tags, icon, colors[theme_color])
+    _draw_summary(img, rank, username, interest_tags,
+                  icon, colors[theme_color])
 
     # img.save("output.png")
     return img

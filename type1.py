@@ -114,12 +114,15 @@ def _draw_summary(
         rank_h = 0
 
     tags_w = summary_w
-    tags_h = tagsbox(
-        draw=draw,
-        tags=interest_tags,
-        font=FONT,
-        width=summary_w,
-    ).h
+    if interest_tags is not None:
+        tags_h = tagsbox(
+            draw=draw,
+            tags=interest_tags,
+            font=FONT,
+            width=summary_w,
+        ).h
+    else:
+        tags_h = 0
 
     NAME_RANK_GAP = 20
     RANK_TAG_GAP = 30
@@ -182,14 +185,15 @@ def _draw_summary(
             fill=colors.text.inner,
         )
 
-    draw_tags(
-        img=img,
-        tags=interest_tags,
-        font=FONT,
-        colors=colors.label,
-        xy=(tags_x, tags_y),
-        width=tags_w,
-    )
+    if interest_tags is not None:
+        draw_tags(
+            img=img,
+            tags=interest_tags,
+            font=FONT,
+            colors=colors.label,
+            xy=(tags_x, tags_y),
+            width=tags_w,
+        )
 
 
 def _draw_arts(img: Image.Image, arts, colors):
