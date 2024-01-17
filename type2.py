@@ -126,7 +126,7 @@ def _draw_summary(
     rank_h = 16 + rank_text_h + 16
 
     # 全体のサイズ
-    summary_h = rank_h + 16 + name_h + 27 + tag_h
+    summary_h = rank_h + 16 + name_h + 27 + tags_h
     summary_t = summary_bottom - summary_h
 
     # 描画
@@ -206,7 +206,7 @@ def businesscard_type_2(
     background_image,
     theme_color,
 ):
-    img :Image.Image = Image.open(background_image)
+    img: Image.Image = Image.open(background_image)
     img = img.convert("RGBA")
     img = img.resize((1200, 675))
 
