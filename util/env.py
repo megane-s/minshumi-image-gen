@@ -6,7 +6,7 @@ load_dotenv()
 
 
 def get_env(key: str):
-    return os.environ.get(key)
+    return os.environ[key]
 
 
 def get_env_with_default(key: str, default: str):
