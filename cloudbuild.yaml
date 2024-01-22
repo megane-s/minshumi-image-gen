@@ -21,6 +21,8 @@ steps:
         "2Gi",
         "--min-instances",
         "0",
+        "--set-env-vars=",
+        "TMP_DIR=./tmp,",
       ]
 images:
   - gcr.io/megane-s-gcp/minshumi-image-gen
