@@ -2,6 +2,7 @@ import hashlib
 import mimetypes
 import os
 from os import path
+from shutil import rmtree
 from typing import cast
 from urllib.parse import urlparse
 
@@ -12,11 +13,12 @@ from util.env import get_env
 
 tmp_dir = path.join(get_env("TMP_DIR"), "_remote_images")
 
-def get_local_path(url:str):
+
+def get_local_path(url: str):
     sha256 = hashlib.sha256()
     sha256.update(url.encode())
     url_hash = str(sha256.hexdigest())
-    response :Response = requests.get(url)
+    response: Response = requests.get(url)
     content_type = response.headers.get('Content-Type')
     if content_type is None:
         return None
@@ -29,3 +31,9 @@ def get_local_path(url:str):
     with open(output_path, "wb") as file:
         file.write(cast(bytes, response.content))
     return output_path
+
+
+def clear_image_cache():
+    print("clear image cache")
+    rmtree(tmp_dir)
+    os.makedirs(tmp_dir)

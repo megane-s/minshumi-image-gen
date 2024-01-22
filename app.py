@@ -1,12 +1,14 @@
 import io
 
+from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask, render_template, request, send_file
 
-from image.download import get_local_path
+from image.download import clear_image_cache, get_local_path
 from type1 import businesscard_type_1
 from type2 import businesscard_type_2
 from type3 import businesscard_type_3
 from upload_image.router import upload_user_content
+from util.env import get_env_with_default
 
 app = Flask(__name__)
 app.register_blueprint(upload_user_content)
@@ -132,3 +134,18 @@ def get_theme_color():
         "theme_color",
         default="red",
     )
+
+
+def setup_startup_jobs():
+    # スケジューラのインスタンスを作成する
+    scheduler = BackgroundScheduler()
+    # スケジューラーにジョブを追加する
+    interval_min = int(get_env_with_default(
+        "AUTO_CLEAR_CACHE_INTERVAL_MIN", "30")
+    )
+    scheduler.add_job(clear_image_cache, "interval", minutes=interval_min)
+    # スケジューラを開始する
+    scheduler.start()
+
+
+setup_startup_jobs()
