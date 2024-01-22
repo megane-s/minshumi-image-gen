@@ -23,6 +23,8 @@ steps:
         "0",
         "--set-env-vars",
         "TMP_DIR=./tmp",
+        "--port",
+        "8000",
       ]
 images:
   - gcr.io/megane-s-gcp/minshumi-image-gen
