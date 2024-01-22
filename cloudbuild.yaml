@@ -21,7 +21,7 @@ steps:
         "2Gi",
         "--min-instances",
         "0",
-        "--set-env-vars=",
+        "--set-env-vars",
         "TMP_DIR=./tmp",
       ]
 images:
