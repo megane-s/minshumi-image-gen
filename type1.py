@@ -160,7 +160,8 @@ def _draw_summary(
 
     # 描画
     icon_img = Image.open(icon).resize((icon_w, icon_h))
-    img.alpha_composite(icon_img, dest=(int(icon_x), int(icon_y)))
+    img.paste(icon_img, box=(int(icon_x), int(icon_y)))
+    # img.alpha_composite(icon_img, dest=(int(icon_x), int(icon_y)))
 
     draw_text(
         img,
