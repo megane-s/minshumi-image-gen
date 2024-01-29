@@ -36,4 +36,4 @@ def get_local_path(url: str):
 def clear_image_cache():
     print("clear image cache")
     rmtree(tmp_dir)
-    os.makedirs(tmp_dir)
+    os.makedirs(tmp_dir, exist_ok=True)
