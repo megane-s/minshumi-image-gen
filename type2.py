@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw
 
-from colors import colors
+from colors import BusinessCardColors, colors
 from image.cut import cut_rounded_rect
 from image.flow_layout import draw_text_with_wrap, textbbox_with_wrap
 from image.layout import Rect
@@ -68,7 +68,7 @@ def _draw_summary(
     username,
     interest_tags,
     icon,
-    colors,
+    colors: BusinessCardColors,
 ):
     draw = ImageDraw.Draw(img)
     arts_rect = get_arts_rect(img)
@@ -180,10 +180,10 @@ def _draw_summary(
         (name_left, name_top),
         name_w,
         username,
-        fill=colors.text.inner,
+        fill=colors.text.bordered.inner,
         font=NAME_FONT,
         stroke_width=5,
-        stroke_fill=colors.text.edge,
+        stroke_fill=colors.text.bordered.edge,
     )
 
     # 称号
@@ -194,7 +194,7 @@ def _draw_summary(
     if rank is not None:
         draw.rounded_rectangle(
             (rank_left, rank_top, rank_right, rank_top + rank_h),
-            radius=rank_h / 2,
+            radius=int(rank_h / 2),
             fill=colors.label.box,
         )
 

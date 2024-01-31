@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw
 
-from colors import colors
+from colors import BusinessCardColors, colors
 from image.cut import cut_circle, cut_rounded_rect
 from image.flow_layout import draw_text_with_wrap, textbbox_with_wrap
 from image.layout import Rect
@@ -14,7 +14,7 @@ def _draw_icon_and_name(
     img: Image.Image,
     icon,
     username,
-    colors,
+    colors: BusinessCardColors,
 ):
     draw = ImageDraw.Draw(img)
 
@@ -53,8 +53,8 @@ def _draw_icon_and_name(
         text=username,
         font=NAME_FONT,
         stroke_width=5,
-        fill=colors.text.inner,
-        stroke_fill=colors.text.edge,
+        fill=colors.text.bordered.inner,
+        stroke_fill=colors.text.bordered.edge,
     )
 
     pass
@@ -75,7 +75,7 @@ def get_arts_rect(
 def _draw_arts(
     img: Image.Image,
     arts,
-    color,
+    color: BusinessCardColors,
 ):
     draw = ImageDraw.Draw(img)
 

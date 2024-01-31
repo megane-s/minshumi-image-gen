@@ -1,6 +1,6 @@
 from PIL import Image, ImageDraw
 
-from colors import BusinessCardColors, colors
+from colors import BoxColors, BusinessCardColors, colors
 from image.cut import cut_circle
 from image.flow_layout import textbbox_with_wrap
 from image.layout import Offset, Padding, Rect, Size
@@ -40,7 +40,7 @@ def get_label_rect(img: Image.Image, label_text=LABEL_TEXT):
 
 def _draw_label(
     img: Image.Image,
-    label_color,
+    label_color: BoxColors,
 ):
     draw = ImageDraw.Draw(img)
 
@@ -59,7 +59,6 @@ def _draw_label(
         font=FONT,
     )
     text_img = text_img.rotate(90, expand=True)
-    text_img.save("test-text_img-output.png")
 
     img.alpha_composite(
         text_img,
@@ -169,9 +168,9 @@ def _draw_summary(
         width=name_w,
         text=username,
         font=NAME_FONT,
-        stroke_fill=colors.text.edge,
+        stroke_fill=colors.text.bordered.edge,
         stroke_width=3,
-        fill=colors.text.inner,
+        fill=colors.text.bordered.inner,
     )
 
     if rank is not None:
@@ -181,9 +180,9 @@ def _draw_summary(
             width=rank_w,
             text=rank,
             font=RANK_FONT,
-            stroke_fill=colors.text.edge,
+            stroke_fill=colors.text.bordered.edge,
             stroke_width=3,
-            fill=colors.text.inner,
+            fill=colors.text.bordered.inner,
         )
 
     if interest_tags is not None:
@@ -192,12 +191,12 @@ def _draw_summary(
             tags=interest_tags,
             font=FONT,
             colors=colors.label,
-            xy=(tags_x, int(tags_y)),
-            width=tags_w,
+            xy=(int(tags_x), int(tags_y)),
+            width=int(tags_w),
         )
 
 
-def _draw_arts(img: Image.Image, arts, colors):
+def _draw_arts(img: Image.Image, arts, colors: BusinessCardColors):
     draw = ImageDraw.Draw(img)
 
     label_rect = get_label_rect(img)
@@ -223,31 +222,52 @@ def _draw_arts(img: Image.Image, arts, colors):
 
     rect1_img = Image.new("RGBA", img.size)
     rect1_draw = ImageDraw.Draw(rect1_img)
-    rect1_draw.rectangle(rect1.to_tuple(), colors.arts[0].box)
+    rect1_draw.rectangle(rect1.to_tuple(), fill=colors.arts[0].box)
     img.alpha_composite(rect1_img)
 
     rect2_img = Image.new("RGBA", img.size)
     rect2_draw = ImageDraw.Draw(rect2_img)
-    rect2_draw.rectangle(rect2.to_tuple(), colors.arts[1].box)
+    rect2_draw.rectangle(rect2.to_tuple(), fill=colors.arts[1].box)
     img.alpha_composite(rect2_img)
 
     rect3_img = Image.new("RGBA", img.size)
     rect3_draw = ImageDraw.Draw(rect3_img)
-    rect3_draw.rectangle(rect3.to_tuple(), colors.arts[2].box)
+    rect3_draw.rectangle(rect3.to_tuple(), fill=colors.arts[2].box)
     img.alpha_composite(rect3_img)
 
     # 文字入れ１
 
     rec1_inner_rect = rect1.inner_rect(padding=Padding.new_all(34))
-    draw.text(rec1_inner_rect.offset.to_tuple(), arts[0], font=get_font(35))
+    draw_text(
+        img=img,
+        xy=rec1_inner_rect.offset.to_tuple(),
+        width=rec1_inner_rect.width,
+        text=arts[0],
+        font=get_font(35),
+        fill=colors.arts[0].text,
+    )
 
     # 文字入れ２
     rec2_inner_rect = rect2.inner_rect(padding=Padding.new_all(34))
-    draw.text(rec2_inner_rect.offset.to_tuple(), arts[1], font=get_font(35))
+    draw_text(
+        img=img,
+        xy=rec2_inner_rect.offset.to_tuple(),
+        width=rec2_inner_rect.width,
+        text=arts[0],
+        font=get_font(35),
+        fill=colors.arts[0].text,
+    )
 
     # 文字入れ３
     rec3_inner_rect = rect3.inner_rect(padding=Padding.new_all(34))
-    draw.text(rec3_inner_rect.offset.to_tuple(), arts[2], font=get_font(35))
+    draw_text(
+        img=img,
+        xy=rec3_inner_rect.offset.to_tuple(),
+        width=rec3_inner_rect.width,
+        text=arts[0],
+        font=get_font(35),
+        fill=colors.arts[0].text,
+    )
 
 
 def businesscard_type_1(
