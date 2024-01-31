@@ -253,9 +253,9 @@ def _draw_arts(img: Image.Image, arts, colors: BusinessCardColors):
         img=img,
         xy=rec2_inner_rect.offset.to_tuple(),
         width=rec2_inner_rect.width,
-        text=arts[0],
+        text=arts[1],
         font=get_font(35),
-        fill=colors.arts[0].text,
+        fill=colors.arts[1].text,
     )
 
     # 文字入れ３
@@ -264,9 +264,9 @@ def _draw_arts(img: Image.Image, arts, colors: BusinessCardColors):
         img=img,
         xy=rec3_inner_rect.offset.to_tuple(),
         width=rec3_inner_rect.width,
-        text=arts[0],
+        text=arts[2],
         font=get_font(35),
-        fill=colors.arts[0].text,
+        fill=colors.arts[2].text,
     )
 
 
