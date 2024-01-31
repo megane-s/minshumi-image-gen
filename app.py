@@ -7,11 +7,9 @@ from image.download import clear_image_cache, get_local_path
 from type1 import businesscard_type_1
 from type2 import businesscard_type_2
 from type3 import businesscard_type_3
-from upload_image.router import upload_user_content
 from util.env import get_env_with_default
 
 app = Flask(__name__)
-app.register_blueprint(upload_user_content)
 
 
 @app.route("/test")
@@ -22,13 +20,6 @@ def test_page():
 @app.route("/gen")
 def gen_image():
     card_type = request.args.get("type", default="1")
-    # username = "つーばーさつーばーさ"
-    # icon = "./placeholder/400x400_green.png"
-    # rank = "アクションマスター"
-    # interest_tags = ["アクション","SF","恋愛","アニメ"]
-    # arts = ["ずっと真夜中でいいのに。", "かいけつゾロリ", "呪術廻戦"]
-    # background_image = "./placeholder/1200x675_red.png"
-    # theme_color = "red"
     username = get_username()
     icon = get_icon()
     rank = get_rank()
