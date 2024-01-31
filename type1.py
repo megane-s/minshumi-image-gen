@@ -192,7 +192,7 @@ def _draw_summary(
             tags=interest_tags,
             font=FONT,
             colors=colors.label,
-            xy=(tags_x, tags_y),
+            xy=(tags_x, int(tags_y)),
             width=tags_w,
         )
 
