@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw
 
 
-def draw_background_filter(img: Image.Image, opacity: float = 0.2):
+def draw_background_filter(img: Image.Image, opacity: float = 0.15):
     overlay_img = Image.new("RGBA", img.size)
     overlay_draw = ImageDraw.Draw(overlay_img)
     overlay_draw.rectangle(
