@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw
 
 from colors import BusinessCardColors, colors
+from image.background import draw_background_filter
 from image.cut import cut_circle, cut_rounded_rect
 from image.flow_layout import draw_text_with_wrap, textbbox_with_wrap
 from image.layout import Rect
@@ -127,6 +128,8 @@ def businesscard_type_3(
     img: Image.Image = Image.open(background_image)
     img = img.convert("RGBA")
     img = img.resize((1200, 675))
+
+    draw_background_filter(img)
 
     _draw_icon_and_name(
         img=img,

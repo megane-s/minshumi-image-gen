@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw
 
 from colors import BoxColors, BusinessCardColors, colors
+from image.background import draw_background_filter
 from image.cut import cut_circle
 from image.flow_layout import textbbox_with_wrap
 from image.layout import Offset, Padding, Rect, Size
@@ -288,6 +289,7 @@ def businesscard_type_1(
     img = img.convert("RGBA")
     img = img.resize((1200, 675))
 
+    draw_background_filter(img)
     _draw_label(img, colors[theme_color].label)
     _draw_summary(img, icon, username, rank,
                   interest_tags, colors[theme_color])

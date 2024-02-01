@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw
 
 from colors import BusinessCardColors, colors
+from image.background import draw_background_filter
 from image.cut import cut_rounded_rect
 from image.flow_layout import draw_text_with_wrap, textbbox_with_wrap
 from image.layout import Rect
@@ -11,15 +12,6 @@ RANK_FONT = get_font(40)
 NAME_FONT = get_font(65)
 TAG_FONT = get_font(35)
 ART_FONT = get_font(44)
-
-
-def _draw_background_filter(img: Image.Image):
-    overlay_img = Image.new("RGBA", img.size)
-    overlay_draw = ImageDraw.Draw(overlay_img)
-    overlay_draw.rectangle(
-        (0, 0, 0 + img.width, 0 + img.height), fill=(0, 0, 0, int(255 * 0.3))
-    )
-    img.alpha_composite(overlay_img)
 
 
 def get_arts_rect(
@@ -224,7 +216,7 @@ def businesscard_type_2(
     img = img.convert("RGBA")
     img = img.resize((1200, 675))
 
-    _draw_background_filter(img)
+    draw_background_filter(img)
     _draw_arts(img, arts, colors[theme_color])
     _draw_summary(img, rank, username, interest_tags,
                   icon, colors[theme_color])
