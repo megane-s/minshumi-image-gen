@@ -289,7 +289,7 @@ def businesscard_type_1(
     img = img.convert("RGBA")
     img = img.resize((1200, 675))
 
-    draw_background_filter(img)
+    img = draw_background_filter(img)
     _draw_label(img, colors[theme_color].label)
     _draw_summary(img, icon, username, rank,
                   interest_tags, colors[theme_color])
