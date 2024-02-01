@@ -158,9 +158,14 @@ def _draw_summary(
     )
 
     # 描画
-    icon_img = Image.open(icon).resize((icon_w, icon_h))
-    img.paste(icon_img, box=(int(icon_x), int(icon_y)))
-    # img.alpha_composite(icon_img, dest=(int(icon_x), int(icon_y)))
+    icon_img = Image.open(icon)
+    icon_img = cut_circle(icon_img)
+    icon_img = icon_img.resize((icon_w, icon_h))
+    img.alpha_composite(
+        icon_img,
+        dest=(int(icon_x), int(icon_y)),
+        source=(0, 0),
+    )
 
     draw_text(
         img,
@@ -313,7 +318,7 @@ def businesscard_type_1(
 if __name__ == "__main__":
     businesscard_type_1(
         "つーばーさ",
-        "./placeholder/400x400_green.png",
+        "/Users/tsubasa/Downloads/cloudflare-workers-logo-9BF89B51E2-seeklogo.com.png",
         "アクションマスター",
         [
             "アクション",
